@@ -4,8 +4,10 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable('friendships', (table) => {
+    table.increments('id')
     table.string('user_one_id')
     table.string('user_two_id')
+    table.boolean('pending')
   })
 }
 
