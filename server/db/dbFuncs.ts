@@ -63,3 +63,9 @@ export function confirmFriendRequest(
       this.where('user_one_id', friendId).andWhere('user_two_id', userId)
     })
 }
+
+// export function setPing(userId: string, db = connection): Promise<number> {
+  return db('users').update({
+    ping_active: db.raw('NOT ??',  ['ping_active])
+  }).returning('ping_active');
+}

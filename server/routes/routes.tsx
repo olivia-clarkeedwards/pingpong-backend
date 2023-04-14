@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
   return getFriends(id).then((friends: UserWithFriends) => res.json(friends))
 })
 
+// add user
 router.post('/', (req, res) => {
   const friend = req.body
   return addFriend(friend).then((addedFriend) => {
@@ -25,5 +26,14 @@ router.post('/confirm', (req, res) => {
     res.json(response)
   })
 })
+
+// set ping
+router.post('/toggleping', (req, res) => {
+  const id = req.body.userId
+  return setPing(id).then((response) => res.json(response))
+})
+
+// return user by auth0
+// add friend request
 
 export default router
