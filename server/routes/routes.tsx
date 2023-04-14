@@ -1,26 +1,33 @@
 import express from 'express'
 import { User, UserWithFriends } from '../../common/interface'
-import { confirmFriendRequest, setPing } from '../db/dbFuncs'
+import {
+  addFriendRequest,
+  addUser,
+  confirmFriendRequest,
+  getUserById,
+  setPing,
+} from '../db/dbFuncs'
 import { getFriends } from '../db/dbUtils'
 const router = express.Router()
 
 router.use(express.json())
 
-// Takes a userId and returns that user and an array of friends
+// Takes a userId and returns that user object and an array of friends
 router.post('/getfriends', (req, res) => {
   const userId = req.body.userId
-  return getFriends(userId).then((friends: UserWithFriends) =>
-    res.json(friends)
-  )
+  return getFriends(userId).then((friends) => res.json(friends))
+})
+
+// Takes a userId and returns a user object
+router.post('/getuser', (req, res) => {
+  const userId = req.body.userId
+  return getUserById(userId).then((user) => res.json(user))
 })
 
 // add user
-
-router.post('/', (req, res) => {
-  const friend = req.body
-  return addFriend(friend).then((addedFriend) => {
-    res.json(addedFriend)
-  })
+router.post('/add', (req, res) => {
+  const userData = req.body
+  return addUser(userData).then((addedUser) => res.json(addedUser))
 })
 
 // Takes a userId and a friendId and returns 1 if they are made friends by setting pending to false in the db
@@ -32,13 +39,20 @@ router.post('/confirm', (req, res) => {
   )
 })
 
-// set ping
-router.post('/toggleping', (req, res) => {
+// Takes a userId and a setting boolean and sets that users ping_active to the value of setting
+router.post('/setping', (req, res) => {
   const id = req.body.userId
-  return setPing(id).then((response) => res.json(response))
+  const setting = req.body.setting
+  return setPing(id, setting).then((response) => res.json(response))
 })
 
-// return user by auth0
-// add friend request
+// Inserts a new entry into the friendships table with pending set to true with the userId for user_one_id and friendId for user_two_id
+router.post('addfriend', (req, res) => {
+  const userId = req.body.userId
+  const friendId = req.body.friendId
+  return addFriendRequest(userId, friendId).then((response) =>
+    res.json(response)
+  )
+})
 
 export default router
