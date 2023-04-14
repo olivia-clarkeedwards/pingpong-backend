@@ -53,18 +53,14 @@ export function confirmFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-) {
+): Promise<User> {
   return db('friendships')
     .update({ pending: false }, '*')
-    .where(() => {
-      this.where('user_one_id', userId).andWhere('user_two_id', friendId)
-    })
-    .orWhere(() => {
-      this.where('user_one_id', friendId).andWhere('user_two_id', userId)
-    })
+    .whereIn('user_one_id', [userId, friendId])
+    .whereIn('user_two_id', [userId, friendId])
 }
 
-// export function setPing(userId: string, db = connection): Promise<number> {
+export function setPing(userId: string, db = connection): Promise<number> {
   return db('users').update({
     ping_active: db.raw('NOT ??',  ['ping_active])
   }).returning('ping_active');
