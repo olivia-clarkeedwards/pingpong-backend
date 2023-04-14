@@ -9,7 +9,7 @@ exports.up = function (knex) {
     table.string('name')
     table.string('surname')
     table.string('username')
-    table.date('birthday')
+    table.string('birthday')
     table.boolean('ping_active')
   })
 }
