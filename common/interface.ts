@@ -14,3 +14,10 @@ export interface User extends UserData {
 export interface UserWithFriends extends UserData {
   friend_data: User[]
 }
+
+export interface Friendships {
+  id: number
+  user_id_one: string
+  user_id_two: string
+  pending: boolean
+}
