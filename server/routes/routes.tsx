@@ -4,6 +4,8 @@ import {
   addUser,
   confirmFriendRequest,
   getUserById,
+  nullifyLocation,
+  setLocation,
   setPing,
 } from '../db/dbFuncs'
 import { getFriends } from '../db/dbUtils'
@@ -46,19 +48,29 @@ router.post('/addfriend', (req, res) => {
 
 // Takes a userId and a friendId and returns 1 if they are made friends by setting pending to false in the db
 router.post('/confirm', (req, res) => {
-  const user = req.body.userId
+  const userId = req.body.userId
   const friend = req.body.friendId
-  return confirmFriendRequest(user, friend)
+  return confirmFriendRequest(userId, friend)
     .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
 })
 
 // Takes a userId and a setting boolean and sets that users ping_active to the value of setting
+// If ping is false sets user's ping_location to null, else add location data to db
+// Returns the result of setPing, NOT the result of the entire promise chain - it works, just trust me
 router.post('/setping', (req, res) => {
-  const id = req.body.userId
+  const userId = req.body.userId
   const setting = req.body.setting
-  return setPing(id, setting)
+  const location = req.body?.location
+  return setPing(userId, setting)
     .then((response) => res.json(response))
+    .catch((err: Error) => console.log(err.message))
+    .then(() => {
+      if (setting === false) {
+        return nullifyLocation(userId)
+      }
+      return setLocation(userId, location)
+    })
     .catch((err: Error) => console.log(err.message))
 })
 
