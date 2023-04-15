@@ -11,6 +11,7 @@ exports.up = function (knex) {
     table.string('username')
     table.string('birthday')
     table.boolean('ping_active')
+    table.string('ping_location')
   })
 }
 

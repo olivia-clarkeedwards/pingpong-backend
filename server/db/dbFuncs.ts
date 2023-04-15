@@ -55,6 +55,25 @@ export function setPing(
     .where('auth_id', userId)
 }
 
+export function nullifyLocation(
+  userId: string,
+  db = connection
+): Promise<User> {
+  return db('users')
+    .update({ ping_location: null }, '*')
+    .where('auth_id', userId)
+}
+
+export function setLocation(
+  userId: string,
+  location: string,
+  db = connection
+): Promise<User> {
+  return db('users')
+    .update({ ping_location: location }, '*')
+    .where('auth_id', userId)
+}
+
 export function addUser(userData: UserData, db = connection): Promise<User> {
   return db('users').insert({ ...userData }, '*')
 }
