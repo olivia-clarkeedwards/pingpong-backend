@@ -13,7 +13,15 @@ export function getFriendsByUserIdOne(
   db = connection
 ): Promise<User[]> {
   return db('friendships')
-    .select('*')
+    .select(
+      'users.id',
+      'auth_id',
+      'name',
+      'surname',
+      'username',
+      'birthday',
+      'ping_active'
+    )
     .where('user_one_id', userId)
     .join('users', 'auth_id', 'user_two_id')
 }
@@ -23,11 +31,20 @@ export function getFriendsByUserIdTwo(
   db = connection
 ): Promise<User[]> {
   return db('friendships')
-    .select('*')
+    .select(
+      'users.id',
+      'auth_id',
+      'name',
+      'surname',
+      'username',
+      'birthday',
+      'ping_active'
+    )
     .where('user_two_id', userId)
     .join('users', 'auth_id', 'user_one_id')
 }
 
+// Need to set a timeout
 export function setPing(
   userId: string,
   status: boolean,
@@ -61,7 +78,9 @@ export function confirmFriendRequest(
   db = connection
 ): Promise<Friendships> {
   return db('friendships')
-    .update({ pending: false }, '*')
-    .whereIn('user_one_id', [userId, friendId])
-    .whereIn('user_two_id', [userId, friendId])
+    .update({ pending: false })
+    .where('user_one_id', userId)
+    .andWhere('user_two_id', friendId)
+    .orWhere('user_one_id', friendId)
+    .andWhere('user_two_id', userId)
 }
