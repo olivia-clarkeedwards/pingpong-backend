@@ -6,6 +6,15 @@ const server = express()
 
 server.use(express.json())
 server.use(express.static(path.join(__dirname, 'public')))
+// Add Access Control Allow Origin headers
+server.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
+})
 
 export default server
 
