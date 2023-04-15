@@ -1,5 +1,4 @@
 import express from 'express'
-import { User, UserWithFriends } from '../../common/interface'
 import {
   addFriendRequest,
   addUser,
@@ -36,6 +35,15 @@ router.post('/add', (req, res) => {
     .catch((err: Error) => console.log(err.message))
 })
 
+// Inserts a new entry into the friendships table with pending set to true with the userId for user_one_id and friendId for user_two_id. Returns id of new entry
+router.post('/addfriend', (req, res) => {
+  const userId = req.body.userId
+  const friendId = req.body.friendId
+  return addFriendRequest(userId, friendId)
+    .then((response) => res.json(response))
+    .catch((err: Error) => console.log(err.message))
+})
+
 // Takes a userId and a friendId and returns 1 if they are made friends by setting pending to false in the db
 router.post('/confirm', (req, res) => {
   const user = req.body.userId
@@ -53,16 +61,5 @@ router.post('/setping', (req, res) => {
     .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
 })
-
-// Inserts a new entry into the friendships table with pending set to true with the userId for user_one_id and friendId for user_two_id. Returns id of new entry
-router.post('/addfriend', (req, res) => {
-  const userId = req.body.userId
-  const friendId = req.body.friendId
-  return addFriendRequest(userId, friendId)
-    .then((response) => res.json(response))
-    .catch((err: Error) => console.log(err.message))
-})
-
-// ADD CATCHES
 
 export default router
