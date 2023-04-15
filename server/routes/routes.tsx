@@ -63,14 +63,14 @@ router.post('/setping', (req, res) => {
   const setting = req.body.setting
   const location = req.body?.location
   return setPing(userId, setting)
-    .then((response) => res.json(response))
-    .catch((err: Error) => console.log(err.message))
     .then(() => {
       if (setting === false) {
         return nullifyLocation(userId)
       }
       return setLocation(userId, location)
     })
+    .catch((err: Error) => console.log(err.message))
+    .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
 })
 
