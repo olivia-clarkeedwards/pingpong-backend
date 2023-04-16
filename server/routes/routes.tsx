@@ -8,26 +8,26 @@ import {
   setLocation,
   setPing,
 } from '../db/dbFuncs'
-import { getFriends, checkDbForUser } from '../db/dbUtils'
+import { getUserWithFriendData } from '../db/dbUtils'
 const router = express.Router()
 
 router.use(express.json())
 
-// TEST USER EXISTS ROUTE
-router.post('/dothey', (req, res) => {
-  const userId = req.body
-  return checkDbForUser(userId)
+//add user if not signed up and return user with friend_data array
+router.post('/userwithfriends', (req, res) => {
+  const userData = req.body
+  return getUserWithFriendData(userData)
     .then((object) => res.json(object))
     .catch((err: Error) => console.log(err.message))
 })
 
-// Takes a userId and returns that user object and an array of friends
-router.post('/getfriends', (req, res) => {
-  const userId = req.body.userId
-  return getFriends(userId)
-    .then((friends) => res.json(friends))
-    .catch((err: Error) => console.log(err.message))
-})
+// // Takes a userId and returns that user object and an array of friends
+// router.post('/getfriends', (req, res) => {
+//   const userId = req.body.userId
+//   return getExistingUserFriends(userId)
+//     .then((friends) => res.json(friends))
+//     .catch((err: Error) => console.log(err.message))
+// })
 
 // Takes a userId and returns a user object
 router.post('/getuser', (req, res) => {

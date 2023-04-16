@@ -7,11 +7,13 @@ import {
 } from './dbFuncs'
 import { User, UserWithFriends } from '../../common/interface'
 
-export async function checkDbForUser(userData: User): Promise<UserWithFriends> {
+export async function getUserWithFriendData(
+  userData: User
+): Promise<UserWithFriends> {
   const userExists = await checkUserExists(userData.auth_id)
 
   if (userExists) {
-    return getFriends(userData.auth_id)
+    return getExistingUserFriends(userData.auth_id)
   } else {
     return addNewUser(userData)
   }
@@ -23,7 +25,9 @@ export async function addNewUser(userData: User): Promise<UserWithFriends> {
   return { ...user, friend_data: [] as User[] }
 }
 
-export async function getFriends(userId: string): Promise<UserWithFriends> {
+export async function getExistingUserFriends(
+  userId: string
+): Promise<UserWithFriends> {
   const user = await getUserById(userId)
 
   const friendsOne = await getFriendsByUserIdOne(userId)
