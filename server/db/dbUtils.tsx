@@ -20,9 +20,9 @@ export async function getUserWithFriendData(
 }
 
 export async function addNewUser(userData: User): Promise<UserWithFriends> {
-  const user = await addUser(userData)
+  const [user] = await addUser(userData)
 
-  return { ...user, friend_data: [] as User[] }
+  return { ...user, friend_data: [] }
 }
 
 export async function getExistingUserFriends(

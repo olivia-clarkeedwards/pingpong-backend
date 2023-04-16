@@ -87,7 +87,7 @@ export function setLocation(
     .where('auth_id', userId)
 }
 
-export function addUser(userData: UserData, db = connection): Promise<User> {
+export function addUser(userData: UserData, db = connection): Promise<User[]> {
   return db('users').insert({ ...userData }, '*')
 }
 
