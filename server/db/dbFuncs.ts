@@ -4,6 +4,19 @@ const connection = require('knex')(config)
 
 import { User, UserData, Friendships } from '../../common/interface'
 
+export function checkUserExists(
+  userId: string,
+  db = connection
+): Promise<boolean> {
+  return db('users')
+    .select()
+    .where('auth_id', userId)
+    .then((userArr: User[]) => {
+      if (userArr.length === 0) return false
+      else return true
+    })
+}
+
 export function getUserById(userId: string, db = connection): Promise<User> {
   return db('users').select().where('auth_id', userId).first()
 }
@@ -74,7 +87,7 @@ export function setLocation(
     .where('auth_id', userId)
 }
 
-export function addUser(userData: UserData, db = connection): Promise<User> {
+export function addUser(userData: UserData, db = connection): Promise<User[]> {
   return db('users').insert({ ...userData }, '*')
 }
 
