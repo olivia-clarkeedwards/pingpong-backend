@@ -14,6 +14,7 @@ exports.seed = async function (knex) {
       username: 'jackhaynes',
       birthday: '826545600000',
       ping_active: false,
+      ping_location: 'Heyday',
     },
     {
       id: 2,
