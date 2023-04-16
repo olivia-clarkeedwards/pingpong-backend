@@ -2,22 +2,21 @@ import express from 'express'
 import {
   addFriendRequest,
   addUser,
-  checkUserExists,
   confirmFriendRequest,
   getUserById,
   nullifyLocation,
   setLocation,
   setPing,
 } from '../db/dbFuncs'
-import { getFriends } from '../db/dbUtils'
+import { getFriends, checkDbForUser } from '../db/dbUtils'
 const router = express.Router()
 
 router.use(express.json())
 
 // TEST USER EXISTS ROUTE
 router.post('/dothey', (req, res) => {
-  const userId = req.body.auth_id
-  return checkUserExists(userId)
+  const userId = req.body
+  return checkDbForUser(userId)
     .then((object) => res.json(object))
     .catch((err: Error) => console.log(err.message))
 })
