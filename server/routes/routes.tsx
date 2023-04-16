@@ -22,7 +22,7 @@ router.post('/userwithfriends', (req, res) => {
 })
 
 // // Takes a userId and returns that user object and an array of friends
-// router.post('/getfriends', (req, res) => {
+//// router.post('/getfriends', (req, res) => {
 //   const userId = req.body.userId
 //   return getExistingUserFriends(userId)
 //     .then((friends) => res.json(friends))
