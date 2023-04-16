@@ -1,6 +1,8 @@
 import express from 'express'
 import path from 'path'
 import routes from '../server/routes/routes'
+import placeRoutes from '../server/routes/googleApiRoutes'
+import cors from 'cors'
 
 const server = express()
 
@@ -15,7 +17,9 @@ server.use((req, res, next) => {
   )
   next()
 })
+server.use(cors())
 
-export default server
-
+//Routers
 server.use('/api/v1/', routes)
+server.use('/google/', placeRoutes)
+export default server
