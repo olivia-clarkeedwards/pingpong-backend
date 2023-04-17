@@ -34,7 +34,8 @@ export function getFriendsByUserIdOne(
       'username',
       'birthday',
       'ping_active',
-      'ping_location'
+      'ping_location',
+      'pending'
     )
     .where('user_one_id', userId)
     .join('users', 'auth_id', 'user_two_id')
@@ -53,7 +54,8 @@ export function getFriendsByUserIdTwo(
       'username',
       'birthday',
       'ping_active',
-      'ping_location'
+      'ping_location',
+      'pending'
     )
     .where('user_two_id', userId)
     .join('users', 'auth_id', 'user_one_id')
