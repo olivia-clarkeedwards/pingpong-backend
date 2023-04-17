@@ -120,3 +120,16 @@ export function confirmFriendRequest(
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
 }
+
+export function deleteFriendRequest(
+  userId: string,
+  friendId: string,
+  db = connection
+): Promise<Friendships> {
+  return db('friendships')
+    .del()
+    .where('user_one_id', userId)
+    .andWhere('user_two_id', friendId)
+    .orWhere('user_one_id', friendId)
+    .andWhere('user_two_id', userId)
+}
