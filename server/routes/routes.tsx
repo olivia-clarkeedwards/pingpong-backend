@@ -8,6 +8,7 @@ import {
   nullifyLocation,
   setLocation,
   setPing,
+  getAllUsers,
 } from '../db/dbFuncs'
 import { getUserWithFriendData, searchUser } from '../db/dbUtils'
 const router = express.Router()
@@ -100,6 +101,12 @@ router.post('/searchuser', (req, res) => {
   return searchUser(userId, searchName).then((response) => {
     res.json(response)
   })
+})
+
+router.get('/getallusers', (req, res) => {
+  return getAllUsers()
+    .then((response) => res.json(response))
+    .catch((err) => console.log(err.message))
 })
 
 export default router

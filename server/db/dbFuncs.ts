@@ -145,3 +145,7 @@ export function checkStatus(userId: string, friendId: string, db = connection) {
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
 }
+
+export function getAllUsers(db = connection) {
+  return db('users').select('*')
+}
