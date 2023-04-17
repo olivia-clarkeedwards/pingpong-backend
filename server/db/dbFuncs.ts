@@ -133,3 +133,7 @@ export function deleteFriendRequest(
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
 }
+
+export function getUserByUsername(username: string, db = connection) {
+  return db('users').select('auth_id').where('username', username)
+}
