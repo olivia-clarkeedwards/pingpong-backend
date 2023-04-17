@@ -83,7 +83,7 @@ export function nullifyLocation(
 
 export function setLocation(
   userId: string,
-  location: string,
+  location = null,
   db = connection
 ): Promise<User> {
   return db('users')
