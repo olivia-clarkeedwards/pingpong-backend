@@ -9,7 +9,7 @@ import {
   setLocation,
   setPing,
 } from '../db/dbFuncs'
-import { getUserWithFriendData } from '../db/dbUtils'
+import { getUserWithFriendData, searchUser } from '../db/dbUtils'
 const router = express.Router()
 
 router.use(express.json())
@@ -90,6 +90,14 @@ router.post('/setping', (req, res) => {
     .catch((err: Error) => console.log(err.message))
     .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
+})
+
+// Takes a userId and a username as searchName
+// Returns the id of the entry inserted into the friendships table if the username matches an entry in the user table
+router.post('/searchuser', (req, res) => {
+  const userId = req.body.userId
+  const searchName = req.body.searchName
+  return searchUser(userId, searchName).then((response) => res.json(response))
 })
 
 export default router

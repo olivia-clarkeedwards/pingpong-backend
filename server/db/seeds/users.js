@@ -19,7 +19,7 @@ exports.seed = async function (knex) {
     {
       id: 2,
       auth_id: 'google-oauth|123456789102',
-      name: 'kerre ',
+      name: 'kerre',
       surname: 'haynes',
       username: 'kerrehaynes',
       birthday: '847281600000',

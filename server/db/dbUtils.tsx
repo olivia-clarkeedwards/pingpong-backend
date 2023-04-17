@@ -4,6 +4,8 @@ import {
   getFriendsByUserIdOne,
   getFriendsByUserIdTwo,
   checkUserExists,
+  getUserByUsername,
+  addFriendRequest,
 } from './dbFuncs'
 import { User, UserWithFriends } from '../../common/interface'
 
@@ -33,4 +35,10 @@ export async function getExistingUserFriends(
   const friendsOne = await getFriendsByUserIdOne(userId)
   const friendsTwo = await getFriendsByUserIdTwo(userId)
   return { ...user, friend_data: friendsOne.concat(friendsTwo) }
+}
+
+export async function searchUser(userId: string, searchName: string) {
+  const friend = await getUserByUsername(searchName)
+
+  return addFriendRequest(userId, friend.auth_id)
 }
