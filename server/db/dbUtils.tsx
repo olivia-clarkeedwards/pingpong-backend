@@ -40,7 +40,6 @@ export async function getExistingUserFriends(
 
 export async function searchUser(userId: string, searchName: string) {
   const [friend] = await getUserByUsername(searchName)
-  console.log(friend)
 
   if (typeof friend === 'undefined') {
     return 'BAD_SEARCH'

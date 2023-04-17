@@ -98,7 +98,6 @@ router.post('/searchuser', (req, res) => {
   const userId = req.body.userId
   const searchName = req.body.searchName
   return searchUser(userId, searchName).then((response) => {
-    console.log(response)
     res.json(response)
   })
 })
