@@ -97,7 +97,9 @@ router.post('/setping', (req, res) => {
 router.post('/searchuser', (req, res) => {
   const userId = req.body.userId
   const searchName = req.body.searchName
-  return searchUser(userId, searchName).then((response) => res.json(response))
+  return searchUser(userId, searchName).then((response) => {
+    res.json(response)
+  })
 })
 
 export default router

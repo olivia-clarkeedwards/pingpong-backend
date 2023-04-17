@@ -137,3 +137,11 @@ export function deleteFriendRequest(
 export function getUserByUsername(username: string, db = connection) {
   return db('users').select('auth_id').where('username', username)
 }
+
+export function checkStatus(userId: string, friendId: string, db = connection) {
+  return db('friendships')
+    .where('user_one_id', userId)
+    .andWhere('user_two_id', friendId)
+    .orWhere('user_one_id', friendId)
+    .andWhere('user_two_id', userId)
+}

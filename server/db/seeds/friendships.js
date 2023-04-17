@@ -30,17 +30,5 @@ exports.seed = async function (knex) {
       user_two_id: 'google-oauth|123456789103',
       pending: false,
     },
-    {
-      id: 5,
-      user_one_id: 'google-oauth|123456789102',
-      user_two_id: 'google-oauth|123456789104',
-      pending: true,
-    },
-    {
-      id: 6,
-      user_one_id: 'google-oauth|123456789103',
-      user_two_id: 'google-oauth|123456789104',
-      pending: false,
-    },
   ])
 }
