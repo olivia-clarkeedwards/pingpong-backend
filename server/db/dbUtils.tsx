@@ -33,8 +33,13 @@ export async function getExistingUserFriends(
 ): Promise<UserWithFriends> {
   const user = await getUserById(userId)
 
-  const friendsOne = await getFriendsByUserIdOne(userId)
+  let friendsOne = await getFriendsByUserIdOne(userId)
   const friendsTwo = await getFriendsByUserIdTwo(userId)
+
+  // If the user sent the friend request and the friendship is still pending, do not return the friendship
+  // Prevents users confirming friend requests they themselves sent
+  friendsOne = friendsOne.filter((friend) => friend.pending != true)
+
   return { ...user, friend_data: friendsOne.concat(friendsTwo) }
 }
 
