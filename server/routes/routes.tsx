@@ -3,6 +3,7 @@ import {
   addFriendRequest,
   addUser,
   confirmFriendRequest,
+  deleteFriendRequest,
   getUserById,
   nullifyLocation,
   setLocation,
@@ -59,6 +60,15 @@ router.post('/confirm', (req, res) => {
   const userId = req.body.userId
   const friend = req.body.friendId
   return confirmFriendRequest(userId, friend)
+    .then((response) => res.json(response))
+    .catch((err: Error) => console.log(err.message))
+})
+
+// Takes a userId and a friendId and returns 1 if the friendship is deleted
+router.post('/deny', (req, res) => {
+  const userId = req.body.userId
+  const friend = req.body.friendId
+  return deleteFriendRequest(userId, friend)
     .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
 })
