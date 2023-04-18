@@ -155,7 +155,9 @@ export function checkStatus(
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .then((friendship: Friendships[]) => Boolean(friendship))
+    .then((friendship: Friendships[]) =>
+      friendship.length !== 0 ? true : false
+    )
 }
 
 export function getAllUsers(db = connection): Promise<User[]> {

@@ -49,6 +49,7 @@ export async function searchUser(userId: string, searchName: string) {
 
   if (auth_id) {
     const friendStatus = await checkStatus(userId, auth_id)
+    console.log(friendStatus)
     if (friendStatus) {
       throw Error('Friend request already exists')
     } else {
