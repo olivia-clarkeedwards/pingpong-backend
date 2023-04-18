@@ -2,6 +2,20 @@ import connection from './connection'
 
 import { User, UserData, Friendships } from '../../common/interface'
 
+//USERS
+
+export function addUser(userData: UserData, db = connection): Promise<User[]> {
+  return db('users').insert({ ...userData }, '*')
+}
+
+export function getAllUsers(db = connection): Promise<User[]> {
+  return db('users').select('*')
+}
+
+export function getUserById(userId: string, db = connection): Promise<User> {
+  return db('users').select().where('auth_id', userId).first()
+}
+
 export function checkUserIdExists(
   userId: string,
   db = connection
@@ -24,9 +38,7 @@ export function checkUsernameExists(
     .then((user: User) => (user ? user.auth_id : false))
 }
 
-export function getUserById(userId: string, db = connection): Promise<User> {
-  return db('users').select().where('auth_id', userId).first()
-}
+//FRIENDS
 
 export function getFriendsByUserIdOne(
   userId: string,
@@ -68,39 +80,7 @@ export function getFriendsByUserIdTwo(
     .join('users', 'auth_id', 'user_one_id')
 }
 
-// Need to set a timeout
-export function setPing(
-  userId: string,
-  status: boolean,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_active: status }, '*')
-    .where('auth_id', userId)
-}
-
-export function nullifyLocation(
-  userId: string,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_location: null }, '*')
-    .where('auth_id', userId)
-}
-
-export function setLocation(
-  userId: string,
-  location = null,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_location: location }, '*')
-    .where('auth_id', userId)
-}
-
-export function addUser(userData: UserData, db = connection): Promise<User[]> {
-  return db('users').insert({ ...userData }, '*')
-}
+//FRIEND REQUESTS
 
 export function addFriendRequest(
   userId: string,
@@ -158,6 +138,33 @@ export function checkStatus(
     )
 }
 
-export function getAllUsers(db = connection): Promise<User[]> {
-  return db('users').select('*')
+//PING DETAILS
+// Need to set a timeout
+export function setPing(
+  userId: string,
+  status: boolean,
+  db = connection
+): Promise<User> {
+  return db('users')
+    .update({ ping_active: status }, '*')
+    .where('auth_id', userId)
+}
+
+export function setLocation(
+  userId: string,
+  location = null,
+  db = connection
+): Promise<User> {
+  return db('users')
+    .update({ ping_location: location }, '*')
+    .where('auth_id', userId)
+}
+
+export function nullifyLocation(
+  userId: string,
+  db = connection
+): Promise<User> {
+  return db('users')
+    .update({ ping_location: null }, '*')
+    .where('auth_id', userId)
 }
