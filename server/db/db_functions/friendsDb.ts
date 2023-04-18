@@ -50,7 +50,7 @@ export function addFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<number> {
+): Promise<{ id: number }[]> {
   return db('friendships')
     .insert({
       user_one_id: userId,
@@ -71,7 +71,7 @@ export function confirmFriendRequest(
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .returning(['*'])
+    .select('id')
 }
 
 export function deleteFriendRequest(
@@ -85,7 +85,7 @@ export function deleteFriendRequest(
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .returning(['*'])
+    .select('id')
 }
 
 export function checkStatus(

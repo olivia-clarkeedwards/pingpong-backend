@@ -1,5 +1,5 @@
 import connection from '../connection'
-import * as db from './pingDb'
+import * as db from './friendsDb'
 
 const testDb = connection
 
@@ -23,26 +23,6 @@ describe('db.checkUsernameExists', () => {
 
 describe('db.getUserById', () => {
   it.todo('returns a user object by auth_id')
-})
-
-describe('db.getFriendsByUserIdOne', () => {
-  it.todo('returns a list of friends where the auth_id matches a user_one_id')
-})
-
-describe('db.getFriendsByUserIdTwo', () => {
-  it.todo('returns a list of friends where the auth_id matches a user_two_id')
-})
-
-describe('db.setPing', () => {
-  it.todo('sets ping status to setting')
-})
-
-describe('db.nullifyLocation', () => {
-  it.todo('updates user location to null')
-})
-
-describe('db.setLocation', () => {
-  it.todo('updates user location')
 })
 
 describe('db.', () => {
