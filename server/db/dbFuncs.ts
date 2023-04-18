@@ -108,13 +108,15 @@ export function addFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<Friendships> {
+): Promise<number> {
   // No duplicate checking
-  return db('friendships').insert({
-    user_one_id: userId,
-    pending: true,
-    user_two_id: friendId,
-  })
+  return db('friendships')
+    .insert({
+      user_one_id: userId,
+      pending: true,
+      user_two_id: friendId,
+    })
+    .select('id')
 }
 
 export function confirmFriendRequest(

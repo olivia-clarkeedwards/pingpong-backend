@@ -50,11 +50,11 @@ export async function searchUser(userId: string, searchName: string) {
   if (auth_id) {
     const friendStatus = await checkStatus(userId, auth_id)
     if (friendStatus) {
-      return 'PENDING_TRUE'
+      throw Error('Friend request already exists')
     } else {
-      return addFriendRequest(userId, auth_id)
+      return await addFriendRequest(userId, auth_id)
     }
   } else {
-    throw Error
+    throw Error('User not found')
   }
 }
