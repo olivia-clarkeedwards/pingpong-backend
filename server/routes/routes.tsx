@@ -2,18 +2,18 @@
 //GIVE USERS SOME FEEDBACK WHEN THINGS DON'T WORK
 
 import express from 'express'
+
+import { getUserWithFriendData, searchUser } from '../db/dbUtils'
 import {
-  addFriendRequest,
-  addUser,
   confirmFriendRequest,
   deleteFriendRequest,
-  getUserById,
+} from '../db/db_functions/friendsDb'
+import {
   nullifyLocation,
   setLocation,
   setPing,
-  getAllUsers,
-} from '../db/dbFuncs'
-import { getUserWithFriendData, searchUser } from '../db/dbUtils'
+} from '../db/db_functions/pingDb'
+import { addUser, getAllUsers, getUserById } from '../db/db_functions/userDb'
 const router = express.Router()
 
 router.use(express.json())
@@ -25,14 +25,6 @@ router.post('/userwithfriends', (req, res) => {
     .then((object) => res.json(object))
     .catch((err: Error) => console.log(err.message))
 })
-
-// // Takes a userId and returns that user object and an array of friends
-//// router.post('/getfriends', (req, res) => {
-//   const userId = req.body.userId
-//   return getExistingUserFriends(userId)
-//     .then((friends) => res.json(friends))
-//     .catch((err: Error) => console.log(err.message))
-// })
 
 // Takes a userId and returns a user object
 router.post('/getuser', (req, res) => {

@@ -12,6 +12,7 @@ export function setPing(
   return db('users')
     .update({ ping_active: status }, '*')
     .where('auth_id', userId)
+    .returning(['*'])
 }
 
 export function setLocation(
@@ -22,6 +23,7 @@ export function setLocation(
   return db('users')
     .update({ ping_location: location }, '*')
     .where('auth_id', userId)
+    .returning(['*'])
 }
 
 export function nullifyLocation(
@@ -31,4 +33,5 @@ export function nullifyLocation(
   return db('users')
     .update({ ping_location: null }, '*')
     .where('auth_id', userId)
+    .returning(['*'])
 }

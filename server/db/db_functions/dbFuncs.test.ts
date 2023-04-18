@@ -1,5 +1,5 @@
 import connection from '../connection'
-import * as db from './dbFuncs'
+import * as db from './pingDb'
 
 const testDb = connection
 
