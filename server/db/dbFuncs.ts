@@ -12,7 +12,7 @@ export function checkUserExists(
     .select()
     .where('auth_id', userId)
     .then((userArr: User[]) => {
-      if (userArr.length === 0) return false
+      if (userArr.length === 0) return false //throw error
       else return true
     })
 }

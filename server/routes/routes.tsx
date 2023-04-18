@@ -1,3 +1,6 @@
+//REMOVE CONSOLE LOGS AND CHANGE TO THROWING ERRORS!!!!!
+//GIVE USERS SOME FEEDBACK WHEN THINGS DON'T WORK
+
 import express from 'express'
 import {
   addFriendRequest,
@@ -34,7 +37,7 @@ router.post('/userwithfriends', (req, res) => {
 // Takes a userId and returns a user object
 router.post('/getuser', (req, res) => {
   const userId = req.body.userId
-  return getUserById(userId)
+  return getUserById(userId) //
     .then((user) => res.json(user))
     .catch((err: Error) => console.log(err.message))
 })
