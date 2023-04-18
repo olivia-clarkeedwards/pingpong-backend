@@ -11,19 +11,16 @@ export function checkUserIdExists(
   return db('users')
     .select()
     .where('auth_id', userId)
-    .then((userArr: User[]) => {
-      if (userArr.length === 0) return false
-      else return true
-    })
+    .first()
+    .then((user: User) => (user ? true : false))
 }
 
-export function checkUsernameExists(username: string, db = connection) {
+export function checkUsernameExists(username: string, db = connection): string {
   return db('users')
-    .select()
+    .select('auth_id')
     .where('username', username)
-    .then((userArr: User[]) => {
-      return userArr.length !== 0
-    })
+    .first()
+    .then((user: User) => (user ? user.auth_id : false))
 }
 
 export function getUserById(userId: string, db = connection): Promise<User> {
@@ -149,6 +146,7 @@ export function checkStatus(userId: string, friendId: string, db = connection) {
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
+    .then((friendship: Friendships[]) => Boolean(friendship))
 }
 
 export function getAllUsers(db = connection) {

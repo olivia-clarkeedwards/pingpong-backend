@@ -7,6 +7,7 @@ import {
   addFriendRequest,
   checkStatus,
   checkUsernameExists,
+  checkUsernameExists,
 } from './dbFuncs'
 import { User, UserWithFriends } from '../../common/interface'
 
@@ -44,18 +45,16 @@ export async function getExistingUserFriends(
 }
 
 export async function searchUser(userId: string, searchName: string) {
-  const [friend] = await checkUsernameExists(searchName)
+  const auth_id = await checkUsernameExists(searchName)
 
-  if (typeof friend === 'undefined') {
-    return 'BAD_SEARCH'
-  }
-  // throw error instead of 'bad search'
-
-  const friendStatus = await checkStatus(userId, friend.auth_id)
-
-  if (friendStatus.length === 0) {
-    return addFriendRequest(userId, friend.auth_id)
+  if (auth_id) {
+    const friendStatus = await checkStatus(userId, auth_id)
+    if (friendStatus) {
+      return 'PENDING_TRUE'
+    } else {
+      return addFriendRequest(userId, auth_id)
+    }
   } else {
-    return 'PENDING_TRUE'
+    throw Error
   }
 }

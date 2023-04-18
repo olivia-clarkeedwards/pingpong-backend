@@ -96,11 +96,12 @@ router.post('/setping', (req, res) => {
 // Takes a userId and a username as searchName
 // Returns the id of the entry inserted into the friendships table if the username matches an entry in the user table
 router.post('/searchuser', (req, res) => {
-  const userId = req.body.userId
-  const searchName = req.body.searchName
-  return searchUser(userId, searchName).then((response) => {
-    res.json(response)
-  })
+  const { userId, searchName } = req.body
+  return searchUser(userId, searchName)
+    .then((response) => {
+      res.json(response)
+    })
+    .catch(() => res.status(500).send('NO USER FOUND'))
 })
 
 router.get('/getallusers', (req, res) => {
