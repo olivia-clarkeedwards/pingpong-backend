@@ -1,42 +1,6 @@
-import connection from './connection'
+import connection from '../connection'
 
-import { User, UserData, Friendships } from '../../common/interface'
-
-//USERS
-
-export function addUser(userData: UserData, db = connection): Promise<User[]> {
-  return db('users').insert({ ...userData }, '*')
-}
-
-export function getAllUsers(db = connection): Promise<User[]> {
-  return db('users').select('*')
-}
-
-export function getUserById(userId: string, db = connection): Promise<User> {
-  return db('users').select().where('auth_id', userId).first()
-}
-
-export function checkUserIdExists(
-  userId: string,
-  db = connection
-): Promise<boolean> {
-  return db('users')
-    .select()
-    .where('auth_id', userId)
-    .first()
-    .then((user: User) => (user ? true : false))
-}
-
-export function checkUsernameExists(
-  username: string,
-  db = connection
-): Promise<string | boolean> {
-  return db('users')
-    .select('auth_id')
-    .where('username', username)
-    .first()
-    .then((user: User) => (user ? user.auth_id : false))
-}
+import { User, Friendships } from '../../../common/interface'
 
 //FRIENDS
 
@@ -136,35 +100,4 @@ export function checkStatus(
     .then((friendship: Friendships[]) =>
       friendship.length !== 0 ? true : false
     )
-}
-
-//PING DETAILS
-// Need to set a timeout
-export function setPing(
-  userId: string,
-  status: boolean,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_active: status }, '*')
-    .where('auth_id', userId)
-}
-
-export function setLocation(
-  userId: string,
-  location = null,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_location: location }, '*')
-    .where('auth_id', userId)
-}
-
-export function nullifyLocation(
-  userId: string,
-  db = connection
-): Promise<User> {
-  return db('users')
-    .update({ ping_location: null }, '*')
-    .where('auth_id', userId)
 }

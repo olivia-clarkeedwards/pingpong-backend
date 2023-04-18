@@ -1,4 +1,4 @@
-import connection from './connection'
+import connection from '../connection'
 import * as db from './dbFuncs'
 
 const testDb = connection

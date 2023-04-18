@@ -1,14 +1,15 @@
 import {
   addUser,
   getUserById,
+  checkUserIdExists,
+  checkUsernameExists,
+} from './db_functions/userDb'
+import {
   getFriendsByUserIdOne,
   getFriendsByUserIdTwo,
-  checkUserIdExists,
   addFriendRequest,
   checkStatus,
-  checkUsernameExists,
-  checkUsernameExists,
-} from './dbFuncs'
+} from './db_functions/friendsDb'
 import { User, UserWithFriends } from '../../common/interface'
 
 export async function getUserWithFriendData(
@@ -48,11 +49,11 @@ export async function searchUser(userId: string, searchName: string) {
   const auth_id = await checkUsernameExists(searchName)
 
   if (auth_id) {
-    const friendStatus = await checkStatus(userId, auth_id)
+    const friendStatus = await checkStatus(userId, auth_id as string)
     if (friendStatus) {
       throw Error('Friend request already exists')
     } else {
-      return await addFriendRequest(userId, auth_id)
+      return await addFriendRequest(userId, auth_id as string)
     }
   } else {
     throw Error('User not found')
