@@ -4,7 +4,7 @@ const connection = require('knex')(config)
 
 import { User, UserData, Friendships } from '../../common/interface'
 
-export function checkUserExists(
+export function checkUserIdExists(
   userId: string,
   db = connection
 ): Promise<boolean> {
@@ -14,6 +14,15 @@ export function checkUserExists(
     .then((userArr: User[]) => {
       if (userArr.length === 0) return false
       else return true
+    })
+}
+
+export function checkUsernameExists(username: string, db = connection) {
+  return db('users')
+    .select()
+    .where('username', username)
+    .then((userArr: User[]) => {
+      return userArr.length !== 0
     })
 }
 
@@ -132,10 +141,6 @@ export function deleteFriendRequest(
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-}
-
-export function getUserByUsername(username: string, db = connection) {
-  return db('users').select('auth_id').where('username', username)
 }
 
 export function checkStatus(userId: string, friendId: string, db = connection) {
