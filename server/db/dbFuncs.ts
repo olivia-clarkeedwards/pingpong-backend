@@ -1,6 +1,4 @@
-const environment = process.env.NODE_ENV || 'development'
-const config = require('./knexfile')[environment]
-const connection = require('knex')(config)
+import connection from './connection'
 
 import { User, UserData, Friendships } from '../../common/interface'
 
@@ -18,7 +16,7 @@ export function checkUserIdExists(
 export function checkUsernameExists(
   username: string,
   db = connection
-): Promise<string> {
+): Promise<string | boolean> {
   return db('users')
     .select('auth_id')
     .where('username', username)
