@@ -19,7 +19,7 @@ export async function getUserWithFriendData(
   if (userExists) {
     return getExistingUserFriends(userData.auth_id)
   } else {
-    return addNewUser(userData)
+    return addNewUser(userData) //convert to try catch block to catch error from user doesn't exist
   }
 }
 
