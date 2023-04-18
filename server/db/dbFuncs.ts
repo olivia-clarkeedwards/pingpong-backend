@@ -4,17 +4,26 @@ const connection = require('knex')(config)
 
 import { User, UserData, Friendships } from '../../common/interface'
 
-export function checkUserExists(
+export function checkUserIdExists(
   userId: string,
   db = connection
 ): Promise<boolean> {
   return db('users')
     .select()
     .where('auth_id', userId)
-    .then((userArr: User[]) => {
-      if (userArr.length === 0) return false //throw error
-      else return true
-    })
+    .first()
+    .then((user: User) => (user ? true : false))
+}
+
+export function checkUsernameExists(
+  username: string,
+  db = connection
+): Promise<string> {
+  return db('users')
+    .select('auth_id')
+    .where('username', username)
+    .first()
+    .then((user: User) => (user ? user.auth_id : false))
 }
 
 export function getUserById(userId: string, db = connection): Promise<User> {
@@ -99,13 +108,15 @@ export function addFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<Friendships> {
+): Promise<number> {
   // No duplicate checking
-  return db('friendships').insert({
-    user_one_id: userId,
-    pending: true,
-    user_two_id: friendId,
-  })
+  return db('friendships')
+    .insert({
+      user_one_id: userId,
+      pending: true,
+      user_two_id: friendId,
+    })
+    .select('id')
 }
 
 export function confirmFriendRequest(
@@ -134,18 +145,19 @@ export function deleteFriendRequest(
     .andWhere('user_two_id', userId)
 }
 
-export function getUserByUsername(username: string, db = connection) {
-  return db('users').select('auth_id').where('username', username)
-}
-
-export function checkStatus(userId: string, friendId: string, db = connection) {
+export function checkStatus(
+  userId: string,
+  friendId: string,
+  db = connection
+): Promise<boolean> {
   return db('friendships')
     .where('user_one_id', userId)
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
+    .then((friendship: Friendships[]) => Boolean(friendship))
 }
 
-export function getAllUsers(db = connection) {
+export function getAllUsers(db = connection): Promise<User[]> {
   return db('users').select('*')
 }

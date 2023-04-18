@@ -50,13 +50,16 @@ router.post('/add', (req, res) => {
     .catch((err: Error) => console.log(err.message))
 })
 
+// Checks if friend exists by username
+//If user exists, and not yet friends:
 // Inserts a new entry into the friendships table with pending set to true with the userId for user_one_id and friendId for user_two_id. Returns id of new entry
 router.post('/addfriend', (req, res) => {
-  const userId = req.body.userId
-  const friendId = req.body.friendId
-  return addFriendRequest(userId, friendId)
-    .then((response) => res.json(response))
-    .catch((err: Error) => console.log(err.message))
+  const { userId, searchName } = req.body
+  return searchUser(userId, searchName)
+    .then((response) => {
+      res.json(response)
+    })
+    .catch((err) => res.status(400).send('DB ERROR: ' + err.message))
 })
 
 // Takes a userId and a friendId and returns 1 if they are made friends by setting pending to false in the db
@@ -94,16 +97,6 @@ router.post('/setping', (req, res) => {
     .catch((err: Error) => console.log(err.message))
     .then((response) => res.json(response))
     .catch((err: Error) => console.log(err.message))
-})
-
-// Takes a userId and a username as searchName
-// Returns the id of the entry inserted into the friendships table if the username matches an entry in the user table
-router.post('/searchuser', (req, res) => {
-  const userId = req.body.userId
-  const searchName = req.body.searchName
-  return searchUser(userId, searchName).then((response) => {
-    res.json(response)
-  })
 })
 
 router.get('/getallusers', (req, res) => {
