@@ -15,7 +15,10 @@ export function checkUserIdExists(
     .then((user: User) => (user ? true : false))
 }
 
-export function checkUsernameExists(username: string, db = connection): string {
+export function checkUsernameExists(
+  username: string,
+  db = connection
+): Promise<string> {
   return db('users')
     .select('auth_id')
     .where('username', username)
@@ -140,7 +143,11 @@ export function deleteFriendRequest(
     .andWhere('user_two_id', userId)
 }
 
-export function checkStatus(userId: string, friendId: string, db = connection) {
+export function checkStatus(
+  userId: string,
+  friendId: string,
+  db = connection
+): Promise<boolean> {
   return db('friendships')
     .where('user_one_id', userId)
     .andWhere('user_two_id', friendId)
@@ -149,6 +156,6 @@ export function checkStatus(userId: string, friendId: string, db = connection) {
     .then((friendship: Friendships[]) => Boolean(friendship))
 }
 
-export function getAllUsers(db = connection) {
+export function getAllUsers(db = connection): Promise<User[]> {
   return db('users').select('*')
 }
