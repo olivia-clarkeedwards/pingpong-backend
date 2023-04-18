@@ -1,7 +1,7 @@
 import express from 'express'
 import request from 'superagent'
 
-const GOOGLE_API_KEY = 'AIzaSyBxY5MSXvEFGxD-HBKHVdCl1Xb4x8HABY0'
+const GOOGLE_API_KEY = 'AIzaSyD2oeiu2wJH63QRPVadbDuePB3zWtYPfTo'
 
 const router = express.Router()
 router.use(express.json())
