@@ -1,5 +1,6 @@
 import connection from '../connection'
 import * as db from './friendsDb'
+import { User } from '../../../common/interface'
 
 const testDb = connection
 
@@ -12,11 +13,29 @@ beforeAll(async () => {
 })
 
 describe('db.getFriendsByUserIdOne', () => {
-  it.todo('returns a list of friends where the auth_id matches a user_one_id')
+  it('returns a list of friends where the auth_id matches a user_one_id', async () => {
+    const friends = await db.getFriendsByUserIdOne('google-oauth|123456789101')
+
+    expect(friends).toHaveLength(3)
+
+    const firstFriend = friends[0]
+    expect(typeof firstFriend).toBe('object')
+    expect(firstFriend.id).toBe(2)
+    expect(firstFriend.username).toBe('kerrehaynes')
+  })
 })
 
 describe('db.getFriendsByUserIdTwo', () => {
-  it.todo('returns a list of friends where the auth_id matches a user_two_id')
+  it('returns a list of friends where the auth_id matches a user_two_id', async () => {
+    const friends = await db.getFriendsByUserIdTwo('google-oauth|123456789103')
+
+    expect(friends).toHaveLength(2)
+
+    const firstFriend = friends[0]
+    expect(typeof firstFriend).toBe('object')
+    expect(firstFriend.id).toBe(1)
+    expect(firstFriend.username).toBe('jackhaynes')
+  })
 })
 
 describe('db.addFriendRequest', () => {
