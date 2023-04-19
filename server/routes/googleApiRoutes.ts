@@ -9,7 +9,6 @@ router.use(express.json())
 //gets locations from google places for autofill component
 router.get('/place/autocomplete/json?', (req, res) => {
   const { input, country } = req.query
-  console.log(country)
   const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${GOOGLE_API_KEY}&language=en&components=country:${country}`
   return request
     .get(url)
