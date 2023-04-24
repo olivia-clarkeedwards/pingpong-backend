@@ -1,8 +1,14 @@
 import express from 'express'
 import path from 'path'
-import routes from '../server/routes/routes'
-import placeRoutes from '../server/routes/googleApiRoutes'
 import cors from 'cors'
+
+import testingRoutes from '../server/routes/routesForTestingOnly'
+
+import friendRoutes from '../server/routes/friendRoutes'
+import pingRoutes from '../server/routes/friendRoutes'
+import userRoutes from '../server/routes/friendRoutes'
+
+import googlePlacesRoutes from '../server/routes/googleApiRoutes'
 
 const server = express()
 
@@ -20,6 +26,12 @@ server.use((req, res, next) => {
 server.use(cors())
 
 //Routers
-server.use('/api/v1/', routes)
-server.use('/google/', placeRoutes)
+server.use('/api/v1/', friendRoutes)
+server.use('/api/v1/', pingRoutes)
+server.use('/api/v1/', userRoutes)
+
+//to be deleted
+server.use('/api/testing/', testingRoutes)
+
+server.use('/google/', googlePlacesRoutes)
 export default server
