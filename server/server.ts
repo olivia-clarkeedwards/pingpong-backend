@@ -34,4 +34,5 @@ server.use('/api/v1/', userRoutes)
 server.use('/api/testing/', testingRoutes)
 
 server.use('/google/', googlePlacesRoutes)
+
 export default server
