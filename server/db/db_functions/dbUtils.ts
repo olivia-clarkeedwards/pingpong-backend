@@ -12,6 +12,21 @@ import {
 } from './friendsDb'
 import { User, UserWithFriends } from '../../../common/interface'
 
+export async function searchUser(userId: string, searchName: string) {
+  const auth_id = await checkUsernameExists(searchName)
+
+  if (auth_id) {
+    const friendStatus = await checkStatus(userId, auth_id as string)
+    if (friendStatus) {
+      throw Error('Friend request already exists')
+    } else {
+      return await addFriendRequest(userId, auth_id as string)
+    }
+  } else {
+    throw Error('User not found')
+  }
+}
+
 export async function getUserWithFriendData(
   userData: User
 ): Promise<UserWithFriends> {
@@ -43,19 +58,4 @@ export async function getExistingUserFriends(
   friendsOne = friendsOne.filter((friend) => friend.pending != true)
 
   return { ...user, friend_data: friendsOne.concat(friendsTwo) }
-}
-
-export async function searchUser(userId: string, searchName: string) {
-  const auth_id = await checkUsernameExists(searchName)
-
-  if (auth_id) {
-    const friendStatus = await checkStatus(userId, auth_id as string)
-    if (friendStatus) {
-      throw Error('Friend request already exists')
-    } else {
-      return await addFriendRequest(userId, auth_id as string)
-    }
-  } else {
-    throw Error('User not found')
-  }
 }

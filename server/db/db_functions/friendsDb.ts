@@ -1,6 +1,6 @@
 import connection from '../connection'
 
-import { User, Friendships } from '../../../common/interface'
+import { User, FriendRequest, Friendship } from '../../../common/interface'
 
 //FRIENDS
 
@@ -50,7 +50,7 @@ export function addFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<{ id: number }[]> {
+): Promise<FriendRequest[]> {
   return db('friendships')
     .insert({
       user_one_id: userId,
@@ -58,34 +58,35 @@ export function addFriendRequest(
       user_two_id: friendId,
     })
     .select('id')
+    .returning(['id', 'pending'])
 }
 
 export function confirmFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<Friendships> {
+): Promise<FriendRequest[]> {
   return db('friendships')
     .update({ pending: false })
     .where('user_one_id', userId)
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .select('id')
+    .select('id', 'pending')
+    .returning(['id', 'pending'])
 }
 
 export function deleteFriendRequest(
   userId: string,
   friendId: string,
   db = connection
-): Promise<Friendships> {
+): Promise<number> {
   return db('friendships')
     .del()
     .where('user_one_id', userId)
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .select('id')
 }
 
 export function checkStatus(
@@ -98,7 +99,7 @@ export function checkStatus(
     .andWhere('user_two_id', friendId)
     .orWhere('user_one_id', friendId)
     .andWhere('user_two_id', userId)
-    .then((friendship: Friendships[]) =>
+    .then((friendship: Friendship[]) =>
       friendship.length !== 0 ? true : false
     )
 }
