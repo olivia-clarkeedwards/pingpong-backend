@@ -6,13 +6,13 @@ import { User } from '../../../common/interface'
 // Need to set a timeout
 export function setPing(
   userId: string,
-  status: boolean,
+  setting: boolean,
   db = connection
-): Promise<User> {
+): Promise<User[]> {
   return db('users')
-    .update({ ping_active: status }, '*')
+    .update({ ping_active: setting })
     .where('auth_id', userId)
-    .returning(['*'])
+    .returning(['auth_id', 'ping_active'])
 }
 
 export function setLocation(
