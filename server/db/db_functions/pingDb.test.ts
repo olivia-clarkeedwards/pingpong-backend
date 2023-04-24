@@ -1,15 +1,15 @@
-// import connection from '../connection'
-// import * as db from './friendsDb'
+import connection from '../connection'
+import * as db from './friendsDb'
 
-// const testDb = connection
+const testDb = connection
 
-// beforeAll(async () => {
-//   await testDb.migrate.latest()
-// })
+beforeAll(async () => {
+  await testDb.migrate.latest()
+})
 
-// beforeAll(async () => {
-//   await testDb.seed.run()
-// })
+beforeEach(async () => {
+  await testDb.seed.run()
+})
 
 // describe('db.setPing', () => {
 //   it.todo('sets ping status to setting')
