@@ -3,14 +3,14 @@ import {
   getUserById,
   checkUserIdExists,
   checkUsernameExists,
-} from './db_functions/userDb'
+} from './userDb'
 import {
   getFriendsByUserIdOne,
   getFriendsByUserIdTwo,
   addFriendRequest,
   checkStatus,
-} from './db_functions/friendsDb'
-import { User, UserWithFriends } from '../../common/interface'
+} from './friendsDb'
+import { User, UserWithFriends } from '../../../common/interface'
 
 export async function getUserWithFriendData(
   userData: User

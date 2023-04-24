@@ -3,7 +3,7 @@
 
 import express from 'express'
 
-import { getUserWithFriendData, searchUser } from '../db/dbUtils'
+import { getUserWithFriendData, searchUser } from '../db/db_functions/dbUtils'
 import {
   confirmFriendRequest,
   deleteFriendRequest,
