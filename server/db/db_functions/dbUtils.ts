@@ -12,6 +12,8 @@ import {
 } from './friendsDb'
 import { User, UserWithFriends } from '../../../common/interface'
 
+//UTILS
+
 export async function searchUser(userId: string, searchName: string) {
   const auth_id = await checkUsernameExists(searchName)
 

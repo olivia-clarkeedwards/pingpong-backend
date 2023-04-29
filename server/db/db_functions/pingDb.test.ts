@@ -21,16 +21,38 @@ describe('db.setPing', () => {
     expect(pingSet[0].auth_id).toBe('google-oauth|123456789101')
     expect(Boolean(pingSet[0].ping_active)).toBeTruthy()
   })
-})
 
-describe('db.nullifyLocation', () => {
-  it.todo('updates user location to null')
+  it('sets ping status to false if setting equals false', async () => {
+    const userId = 'google-oauth|123456789101'
+
+    const pingSetStatus = await db.setPing(userId, false)
+
+    expect(typeof pingSetStatus).toBe('object')
+    expect(pingSetStatus[0].auth_id).toBe('google-oauth|123456789101')
+    expect(Boolean(pingSetStatus[0].ping_active)).toBeFalsy()
+  })
 })
 
 describe('db.setLocation', () => {
-  it.todo('updates user location')
+  it('updates user location to specified location', async () => {
+    const userId = 'google-oauth|123456789101'
+
+    const pingSetLocation = await db.setLocation(userId, 'Wellington')
+
+    expect(typeof pingSetLocation).toBe('object')
+    expect(pingSetLocation[0].auth_id).toBe('google-oauth|123456789101')
+    expect(pingSetLocation[0].ping_location).toBe('Wellington')
+  })
 })
 
-describe('db.', () => {
-  it.todo('returns a user object by auth_id')
+describe('db.nullifyLocation', () => {
+  it('updates user location to null', async () => {
+    const userId = 'google-oauth|123456789101'
+
+    const pingNullLocation = await db.nullifyLocation(userId)
+
+    expect(typeof pingNullLocation).toBe('object')
+    expect(pingNullLocation[0].auth_id).toBe('google-oauth|123456789101')
+    expect(pingNullLocation[0].ping_location).toBeFalsy()
+  })
 })

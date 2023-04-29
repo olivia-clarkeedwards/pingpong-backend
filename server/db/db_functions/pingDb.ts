@@ -2,8 +2,8 @@ import connection from '../connection'
 
 import { User } from '../../../common/interface'
 
-//PING DETAILS
-// Need to set a timeout
+//PING
+
 export function setPing(
   userId: string,
   setting: boolean,
@@ -17,9 +17,9 @@ export function setPing(
 
 export function setLocation(
   userId: string,
-  location = null,
+  location: string,
   db = connection
-): Promise<User> {
+): Promise<User[]> {
   return db('users')
     .update({ ping_location: location }, '*')
     .where('auth_id', userId)
@@ -29,7 +29,7 @@ export function setLocation(
 export function nullifyLocation(
   userId: string,
   db = connection
-): Promise<User> {
+): Promise<User[]> {
   return db('users')
     .update({ ping_location: null }, '*')
     .where('auth_id', userId)

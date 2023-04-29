@@ -4,8 +4,9 @@ export interface UserData {
   surname: string
   username: string
   birthday: string
-  ping_active: boolean | number
-  pending?: boolean | number
+  ping_active: boolean
+  ping_location: string | null
+  pending?: boolean
 }
 
 export interface User extends UserData {
