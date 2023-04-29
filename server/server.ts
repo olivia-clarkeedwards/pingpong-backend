@@ -22,4 +22,5 @@ server.use(cors())
 //Routers
 server.use('/api/v1/', routes)
 server.use('/google/', placeRoutes)
+
 export default server
