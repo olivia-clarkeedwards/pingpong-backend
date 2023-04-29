@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import path from 'path'
 const envPath = path.join(__dirname, '../.env')
-dotenv.config({ path: envPath })
+require('dotenv-vault-core').config({ path: envPath })
