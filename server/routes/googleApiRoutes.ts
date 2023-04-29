@@ -1,13 +1,7 @@
 import express from 'express'
 import request from 'superagent'
 
-import * as dotenv from 'dotenv'
-import path from 'path'
-const envPath = path.join(__dirname, '../../.env')
-dotenv.config({ path: envPath })
-
 const apiKey = process.env.GOOGLE_API_KEY
-console.log(apiKey)
 const router = express.Router()
 router.use(express.json())
 
